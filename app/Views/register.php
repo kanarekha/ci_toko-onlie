@@ -1,4 +1,4 @@
-<?= $this->extend('layout') ?>
+<?= $this->extend('layouts') ?>
 <?= $this->section('content') ?>
 <?php
 $username = [
@@ -23,7 +23,7 @@ $repeatPassword = [
 $session = session();
 $errors = $session->getFlashdata('errors');
 ?>
-<h1>Register Form</h1>
+<h2>Register Form</h2>
 <?php if ($errors != null) : ?>
 	<div class="alert alert-danger" role="alert">
 		<h4 class="alert-heading">Terjadi Kesalahan</h4>
@@ -42,16 +42,17 @@ $errors = $session->getFlashdata('errors');
 	<?= form_label("Username", "username") ?>
 	<?= form_input($username) ?>
 </div>
-<div class="form-group">
+<div class="form-group mt-2">
 	<?= form_label("Password", "password") ?>
 	<?= form_password($password) ?>
 </div>
-<div class="form-group">
+<div class="form-group mt-2">
 	<?= form_label("Repeat Password", "repeatPassword") ?>
 	<?= form_password($repeatPassword) ?>
 </div>
-<div class="text-right">
+<div class="text-right mt-3">
 	<?= form_submit('submit', 'Submit', ['class' => 'btn btn-primary']) ?>
 </div>
 <?= form_close() ?>
+<p class="mt-4">Sudah punya akun? <a href="<?= site_url('auth/login') ?>">Masuk</a></i></p>
 <?= $this->endSection() ?>

@@ -1,4 +1,4 @@
-<?= $this->extend('layout') ?>
+<?= $this->extend('layouts') ?>
 <?= $this->section('content') ?>
 <?php
 
@@ -9,7 +9,7 @@ $nama = [
 	'class' => 'form-control',
 ];
 
-$harga =[
+$harga = [
 	'name' => 'harga',
 	'id' => 'harga',
 	'value' => null,
@@ -32,7 +32,7 @@ $gambar = [
 	'id' => 'gambar',
 	'value' => null,
 	'class' => 'form-control',
-]; 
+];
 
 $submit = [
 	'name' => 'submit',
@@ -46,36 +46,29 @@ $submit = [
 <h1>Tambah Barang</h1>
 
 <?= form_open_multipart('Barang/create') ?>
-	<div class="form-group">
-		<?= form_label("Nama", "nama") ?>
-		<?= form_input($nama) ?>
-	</div>
+<div class="form-group mb-3">
+	<?= form_label("Nama", "nama") ?>
+	<?= form_input($nama) ?>
+</div>
 
-	<div class="form-group">
-		<?= form_label("Harga", "harga") ?>
-		<?= form_input($harga) ?>
-	</div>
+<div class="form-group mb-3">
+	<?= form_label("Harga", "harga") ?>
+	<?= form_input($harga) ?>
+</div>
 
-	<div class="form-group">
-		<?= form_label("Stok", "stok") ?>
-		<?= form_input($stok) ?>
-	</div>
+<div class="form-group mb-3">
+	<?= form_label("Stok", "stok") ?>
+	<?= form_input($stok) ?>
+</div>
 
-	<div class="form-group">
-		<?= form_label("Gambar", "gambar") ?>
-		<?= form_upload($gambar) ?>
-	</div>
+<div class="form-group mb-3">
+	<?= form_label("Gambar", "gambar") ?>
+	<?= form_upload($gambar) ?>
+</div>
 
-	<div class="text-right">
-		<?= form_submit($submit) ?>
-	</div>
+<div class="text-right mb-3">
+	<?= form_submit($submit) ?>
+</div>
 
 <?= form_close() ?>
 <?= $this->endSection() ?>
-
-
-
-
-
-
-

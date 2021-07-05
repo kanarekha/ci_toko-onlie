@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Controllers;
 
 class Etalase extends BaseController
 {
 	private $url = "https://api.rajaongkir.com/starter/";
-	private $apiKey = "ae4b0421f38dd6cd9ae8bc74a55b76e1";
+	private $apiKey = "ec2bbfea069a73fe7071a76bbf982aab";
 
 	public function __construct()
 	{
@@ -17,7 +18,7 @@ class Etalase extends BaseController
 	{
 		$barang = new \App\Models\BarangModel();
 		$model = $barang->findAll();
-		return view('etalase/index',[
+		return view('etalase/index', [
 			'model' => $model,
 		]);
 	}
@@ -36,13 +37,12 @@ class Etalase extends BaseController
 
 		$provinsi = $this->rajaongkir('province');
 
-		if($this->request->getPost())
-		{
+		if ($this->request->getPost()) {
 			$data = $this->request->getPost();
 			$this->validation->run($data, 'transaksi');
 			$errors = $this->validation->getErrors();
 
-			if(!$errors){
+			if (!$errors) {
 				$transaksiModel = new \App\Models\TransaksiModel();
 				$transaksi = new \App\Entities\Transaksi();
 
@@ -52,10 +52,10 @@ class Etalase extends BaseController
 
 				$barang = $barangModel->find($id_barang);
 				$entityBarang = new \App\Entities\Barang();
-				//disini kurang di part 5
+
 				$entityBarang->id = $id_barang;
 
-				$entityBarang->stok = $barang->stok-$jumlah_pembelian;
+				$entityBarang->stok = $barang->stok - $jumlah_pembelian;
 				$barangModel->save($entityBarang);
 
 				$transaksi->fill($data);
@@ -67,23 +67,22 @@ class Etalase extends BaseController
 
 				$id = $transaksiModel->insertID();
 
-				$segment = ['transaksi','view',$id];
+				$segment = ['transaksi', 'view', $id];
 
 				return redirect()->to(site_url($segment));
 			}
 		}
 
-		return view('etalase/beli',[
-			'model'=>$model,
+		return view('etalase/beli', [
+			'model' => $model,
 			'komentar' => $komentar,
-			'provinsi'=> json_decode($provinsi)->rajaongkir->results,
+			'provinsi' => json_decode($provinsi)->rajaongkir->results,
 		]);
-
 	}
 
 	public function getCity()
 	{
-		if ($this->request->isAJAX()){
+		if ($this->request->isAJAX()) {
 			$id_province = $this->request->getGet('id_province');
 			$data = $this->rajaongkir('city', $id_province);
 			return $this->response->setJSON($data);
@@ -92,7 +91,7 @@ class Etalase extends BaseController
 
 	public function getCost()
 	{
-		if ($this->request->isAJAX()){
+		if ($this->request->isAJAX()) {
 			$origin = $this->request->getGet('origin');
 			$destination = $this->request->getGet('destination');
 			$weight = $this->request->getGet('weight');
@@ -108,18 +107,18 @@ class Etalase extends BaseController
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
-		  CURLOPT_RETURNTRANSFER => true,
-		  CURLOPT_ENCODING => "",
-		  CURLOPT_MAXREDIRS => 10,
-		  CURLOPT_TIMEOUT => 30,
-		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => "POST",
-		  CURLOPT_POSTFIELDS => "origin=".$origin."&destination=".$destination."&weight=".$weight."&courier=".$courier,
-		  CURLOPT_HTTPHEADER => array(
-		    "content-type: application/x-www-form-urlencoded",
-		    "key: ".$this->apiKey,
-		  ),
+			CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "POST",
+			CURLOPT_POSTFIELDS => "origin=" . $origin . "&destination=" . $destination . "&weight=" . $weight . "&courier=" . $courier,
+			CURLOPT_HTTPHEADER => array(
+				"content-type: application/x-www-form-urlencoded",
+				"key: " . $this->apiKey,
+			),
 		));
 
 		$response = curl_exec($curl);
@@ -131,28 +130,27 @@ class Etalase extends BaseController
 	}
 
 
-	private function rajaongkir($method, $id_province=null)
+	private function rajaongkir($method, $id_province = null)
 	{
-		$endPoint = $this->url.$method;
+		$endPoint = $this->url . $method;
 
-		if($id_province!=null)
-		{
-			$endPoint = $endPoint."?province=".$id_province;
+		if ($id_province != null) {
+			$endPoint = $endPoint . "?province=" . $id_province;
 		}
 
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $endPoint,
-		  CURLOPT_RETURNTRANSFER => true,
-		  CURLOPT_ENCODING => "",
-		  CURLOPT_MAXREDIRS => 10,
-		  CURLOPT_TIMEOUT => 30,
-		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => "GET",
-		  CURLOPT_HTTPHEADER => array(
-		    "key: ".$this->apiKey
-		  ),
+			CURLOPT_URL => $endPoint,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_HTTPHEADER => array(
+				"key: " . $this->apiKey
+			),
 		));
 
 		$response = curl_exec($curl);

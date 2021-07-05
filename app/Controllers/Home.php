@@ -6,7 +6,8 @@ class Home extends BaseController
 {
 	public function index()
 	{
-		// return view('layout');
-		return view('hello/world', ['data' => 'Hello world juga']);
+		// return view('index');
+		return view('homepage');
+		// return view('hello/world', ['data' => 'Hello world juga']);
 	}
 }

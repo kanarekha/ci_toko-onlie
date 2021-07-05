@@ -13,6 +13,7 @@ class Filters extends BaseConfig
 		'toolbar'  => \CodeIgniter\Filters\DebugToolbar::class,
 		'honeypot' => \CodeIgniter\Filters\Honeypot::class,
 		'auth' => \App\Filters\Auth::class,
+		'admin' => \App\Filters\Admin::class,
 	];
 
 	// Always applied before every request
@@ -36,5 +37,11 @@ class Filters extends BaseConfig
 	// List filter aliases and any before/after uri patterns
 	// that they should run on, like:
 	//    'isLoggedIn' => ['before' => ['account/*', 'profiles/*']],
-	public $filters = [];
+	public $filters = [
+		'admin' => [
+			'before' => [
+				'barang/*',
+			]
+		]
+	];
 }
